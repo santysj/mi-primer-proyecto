@@ -2,7 +2,7 @@
 Soy Santiago y estoy aprendiendo a usar GitHub
 
 ## Mi objetivo 
-Quiero organizar mis trabajos de Big Data
+Quiero demostrar que sé cambiar el objetivo del README
 
 ## Mi primer avance
 Hoy creé un repositorio y guardé mi primer commit. 
