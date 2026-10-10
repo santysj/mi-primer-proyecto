@@ -44,19 +44,23 @@ ___
 </div>
 
 8. ¿Qué diferencia hay entre event time y processing time? Usá late_ok como ejemplo.
->a
+>Event time es el momento en el que ocurre –se registra– el evento, mientras que processing time es el momento en el que este se procesa. El primero entrará o no dentro de un procesamiento dependiendo del tipo de el tipo de ventana y del processing time. Por ejemplo, una consulta con _tumbling window_ incluirá como _late_ok_ aquellos eventos cuyo _time event_ esté a menos de 5 minutos de distancia del momento en el que ésta se ejecuta (_processing time_).
 9. ¿Cuánto valía el watermark al terminar cada llegada? ¿Cómo se calcula a partir del máximo event time visto?
->a
+> El _watermark_ valía 11:54, 11:58, 12:16, 12:17 y 12:35 al terminar, respectivamente, las llegadas 1, 2, 3, 4 y 5. A partir del _máximo event time visto_ se restan 10 minutos y ese es el _watermark_
 10. ¿En qué llegada aparecieron las primeras ventanas tumbling en modo append y por qué no antes?
->a
+>Las ventanas tumbling aparecen recién en la llegada 3. No aparecieron antes porque la distancia entre events en las salidas 1 y 2 no llega a superar los 5 minutos, que es el _tresshold_ de cierre de ventana. 
 11. ¿Qué pasó con late_bad? ¿Por qué se aceptó late_ok y se descartó late_bad?
->a
+>En la llegada 4 hay 20 eventos más viejos que el watermark, que fueron descartados: no suman en ninguna ventana. La razón para hacer esto es que se prefiere mantener el pipeline simple y predecible, evitando dobles ventanas, antes que preservar el dato. 
 12. Mirando el gráfico de ventanas, ¿en qué se diferencian tumbling, hopping y session? Da un ejemplo de negocio para cada una.
->a
+>Tumbling consiste en ventanas que son particiones complementarias en función del tiempo. Este tipo de ventana será más valorado por negocios que no se preocupen por el movimiento continuo de sus datos, sino más bien por fotos en el tiempo.\
+>Hopping consiste en vantanas que son particiones en función del tiempo, pero no son complementarias, sino que se superponen, porque la cantidad de tiempo que debe pasar para hacer una ventana nueva es más chica que la cantidad de tiempo "hacia atrás y adelante" que la ventana atrapa. Negocios que se preocupen por la media movil de sus datos valorarán esto. \
+>Session se distingue porque la partición en el tiempo es al mismo tiempo una partición por cliente: se establecen parámetros de finalización de captura para cada emisor de datos. Por ejemplo, si dejás el celular sobre la mesa con un reel de instagram corriendo en loop y te vas a cocinar, Instagram debería tener un session tresshold (por ejemplo en función de toques de pantalla) que le permita cortar ese influjo de datos y darse cuenta de que el reel no te encanta, sino que no estás viendo el celular. Con Netflix lo mismo, si te quedaste dormido viendo la serie no es lo mismo que si la estás maratoneando a lo loco: el "¿sigues ahí?" sirve le sirve tanto al cliente del servicio Netflix (vos, que estás encantado o embolado con la serie) como al consumidor de datos. 
 13. Para la ventana [12:00, 12:05) del canal card, ¿cuántas veces y con qué valores se emitió en modo update y en modo append? ¿Qué ventaja y qué desventaja tiene cada modo?
->a
+>Update tiene la ventaja de que las ventanas se corrigen, incorporando datos que llegan tarde; pero el precio a pagar es que se reciba la misma ventana dos veces. \
+>Append se emite una sola vez, cuando el watermark cierra, y no da lugar a dobles lecturas, pero tarda más.\
+>En el caso de la práctica, para la ventana 12:00-12:05, se emitió dos veces en _update_, con 6000.00 a la primera y 8400.00 luego; y una sola vez con _append_, con el valor final de 8400.00.
 14. ¿Qué se gana y qué se pierde si el watermark fuera de 1 minuto en lugar de 10?
->a
+>Hay más instancias de procesamiento, lo que es más costoso, pero a cambio mantiene al consumidor más actualizado. 
 
 ___
 
