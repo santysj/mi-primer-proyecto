@@ -1,3 +1,11 @@
+
+# ENTREGA PRÁCTICA 2 – STREAMING</b>
+
+
+- **Nombre: Santiago Sánchez Jeréz**
+- **student_id: santiago**
+- **Escala: small**
+
 <div align="center">
 <b>Log y offsets (01_log_y_offsets)</b>
 </div>
