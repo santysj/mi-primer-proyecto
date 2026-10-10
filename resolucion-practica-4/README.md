@@ -3,16 +3,16 @@
 </div>
 
 1. En el ejemplo en Python, ¿cuántos mensajes quedaron en la cola y cuántos en el log después de leer tres? ¿Qué diferencia hay entre una cola tradicional y un log como Kafka?
->a
+>En la cola quedaron los 2 mensajes no leídos, mientras que en el log permanecen los 5 originales. En una cola tradicional, los datos son consumidos, a medida que se leen, se borran; en un log Kafka, lo único que hay es un cambio en la posición del consumidor (offset), pero los mensajes se mantienen. 
 
 2. Después de la llegada 2, ¿cuántos mensajes había leído el consumidor antifraude y cuántos reportes? ¿El atraso de reportes afectó a antifraude? ¿Por qué?
->a
+>Después de la llegada 2, antifraude leyó 120 mensajes y reportes 0. El atraso de reportes no afecta a antifraudes, pues son independientes uno de otro, cada cual con su propio checkpoint. Esto es posible gracias a que se está trabajando con un log de Kafka, que no borra lo que se lee, permitiendo que cada consumidor lo haga a su tiempo. 
 
 3. ¿Qué es un offset y dónde lo guarda cada consumidor en esta práctica?
->a
+>El offset es la posición de un mensaje en su partición, la última versión del topic que leyó leyó cada consumidor. En esta práctica, el offset se guarda como una variable cuyo valor equivale a dónde se quedó el consumidor correspondiente (antifraude o reportes). 
 
 4. ¿Cuántos mensajes leyó el replay? ¿Qué propone la arquitectura Kappa para reprocesar datos y en qué se diferencia de Lambda?
->a
+>Replay leyó 280 mensajes. La arquitectura Kappa propone un sólo código de steraming, o sea que reprocesar es hacer una consulta nueva. En cambio, la arquitectura Lambda propone una dicotomía: un flujo batch y otro stream, con la misma lógica escrita dos veces
 
 ___
 
