@@ -69,11 +69,12 @@ ___
 </div>
 
 15. ¿Cuántas filas quedaron en el destino sin deduplicar y cuántas deduplicando por event_id? ¿Por qué el productor puede enviar el mismo evento dos veces?
->a
+>Un mismo evento puede llegar dos veces porque el productor lo envía a dos llegadas distintas.\
+>Sin deduplicar, quedaron 220 filas; deduplicando (esto es, recordando los «event_id» dentro del watermark, 200).
 16. ¿Qué pasó al reiniciar con el mismo checkpoint y qué pasó al perderlo? ¿Qué garantía de entrega se observa en cada caso?
->a
+>Al reiniciar con el mismo checkpoint, se mantuvieron las 200 filas y nada más. Aquí hay garantía _Exactly once_. Al perderlo, se escribió todo de nuevo, duplicando el largo: 400 filas. Aquí hay garantía _At least once_.
 17. ¿Por qué con MERGE el resultado no cambió aunque se perdiera el checkpoint? ¿Qué significa que una escritura sea idempotente?
->a
+>Idempotencia quiere decir que correr más de una vez algo es lo mismo que correrlo una sola vez: en este caso, que un flujo de datos llegue una o más veces tenga el mismo resultado. El _MERGE_ por «event_id» es clave porque genera "micro-batches" cada vez que entra un evento, de manera que queda registrado. Esto implica una garantía _Exactly once_.
 
 ___
 
@@ -85,12 +86,5 @@ ___
 >a
 19. ¿Se pudo reconstruir la tabla a partir del log? ¿Qué información tiene el log que la tabla actual no tiene?
 >a
-
-___
-
-<div align="center">
-<b>Cierre</b>
-</div>
-
-20. Según la comparación de motores de la teoría, ¿cuándo elegirías Spark Structured Streaming, Flink o Kafka Streams? Mencioná una ventaja de cada uno.
+treaming, Flink o Kafka Streams? Mencioná una ventaja de cada uno.
 >a
