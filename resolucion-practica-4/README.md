@@ -83,8 +83,6 @@ ___
 </div>
 
 18. ¿Cuántos eventos de cambio generó el log y de qué tipos? ¿Por qué un UPDATE genera dos eventos?
->a
+>Generó 13 eventos de cambio. UPDATE genera dos eventos porque registra el valor pre-cambio (preimage) y el valor con el cambio (postimage).  
 19. ¿Se pudo reconstruir la tabla a partir del log? ¿Qué información tiene el log que la tabla actual no tiene?
->a
-treaming, Flink o Kafka Streams? Mencioná una ventaja de cada uno.
->a
+>Se pudo reconstuir la tabla a partir del log. Además, el log tiene la información de los cambios de la tabla en el tiempo, permitiendo acceder a tablas viejas, de momentos específicos.
