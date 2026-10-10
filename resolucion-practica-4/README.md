@@ -21,11 +21,13 @@ ___
 </div>
 
 5. ¿Cuántas filas nuevas procesó Bronze en cada llegada y cuántas al reejecutar sin archivos nuevos? ¿Qué componente evita leer dos veces el mismo archivo?
->a
+>Con respecto a las filas procesadas, Bronze leyó, para cada archivo nuevo, en orden: 60, 120, 40, 40 y 20. Al releer, no se procesó fila alguna.\
+>El componente que evita leer dos veces el mismo archivo es "Auto Loader". Es el "offset" para archivos.
 6. ¿Qué motivos de rechazo aparecieron en la cuarentena y en qué llegada? ¿Por qué Bronze guarda el texto original en lugar de descartar los registros con errores?
->a
+>Los motivos de rechazo fueron o bien cantidad inválida o bien consumidor desconocido. Esto ocurrió en la segunda llegada. \
+>Bronze guarda el texto original sin ningún tipo de descarte porque los datos crudos son valiosos, y algo que dentro de cierto pipeline se descarta puede ser requerido en otro; y puede pasar, por ejemplo, que haya un cambio de contrato y que mañana se quiera cambiar el pipeline. Por eso, Bronze no descarta nada. 
 7. ¿Qué columnas agregó el join con silver_customers y silver_products? ¿Qué tipo de join es (stream-stream, stream-tabla o tabla-tabla) según la teoría?
->a
+>Agregó las columnas de _country_ y _category_. El join es de tipo «stream-tabla».
 
 ___
 
