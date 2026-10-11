@@ -72,9 +72,21 @@
 
 
 9. ¿Qué combinación de país y categoría concentra el mayor monto vendido? Mostrá también la combinación líder dentro de cada país.
+> La combinación «BR–home» es la que concentra el mayor monto vendido. \
+> \
+> <img width="369" height="57" alt="image" src="https://github.com/user-attachments/assets/a540ee37-c576-4e70-978d-22f245885f6f" /> \
+> \
+> La tabla con las combinaciones lider para cada país es la siguiente. \
+> \
+> <img width="369" height="159" alt="image" src="https://github.com/user-attachments/assets/243f20ed-dfef-4ebd-a173-ee053b93c656" />
+
+
 
 
 10. Compará las dos primeras filas de `pipeline_run_audit` correspondientes a la reejecución de `batch_002`. ¿Qué métricas permanecen iguales y qué columna demuestra que se realizó la comparación de idempotencia?
+><img width="945" height="52" alt="image" src="https://github.com/user-attachments/assets/45bdf841-291a-4ab9-bdfe-9d24003b8051" /> \
+> \
+> Permanecen iguales todas menos la de _recorded_at_ y la de _idempotence_compared_. Esta última es la que demuestra que se realizó la comparación de idempotencia. 
 
 
 ___
