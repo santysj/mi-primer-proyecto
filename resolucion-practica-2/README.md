@@ -23,9 +23,17 @@
 >Aparecen dos tipos de motivo de rechazo: _cantidad inválida_ y _customer desconocido_. Tanto _batch_002_ como _batch_003_ tienen uno de cada motivo. Además, el lote _initial_ tiene como motivo de rechazo para las 51 transacciones, _cantidad inválida_.\
 >\
 ><img width="414" height="158" alt="image" src="https://github.com/user-attachments/assets/5d7d3132-7d19-45ee-907d-42f9df89e929" />
+>\
+>Por otro lado, los rechazos coinciden con los casos introducidos por el generador.
 
 4. Seguí la transacción `42` desde `bronze_transactions_all` hasta `silver_transactions`. ¿Cuántas versiones existen en Bronze y cuál quedó vigente en Silver? Mostrá las columnas que justifican la elección.
->
+>En Bronze existen 3 y en silver 1.\
+>\
+><img width="393" height="58" alt="image" src="https://github.com/user-attachments/assets/d75ca8ad-d204-4f5b-9798-1669e6526608" />
+>\
+><img width="393" height="58" alt="image" src="https://github.com/user-attachments/assets/f09caf93-b0ff-4395-bd95-45367c732b5d" />
+
+
 
 5. Comprobá mediante una consulta que `silver_transactions` tiene una sola fila por `transaction_id`. ¿Qué resultado indicaría que la deduplicación falló?
 
