@@ -95,30 +95,38 @@ ___
 ### Interpretación del código y del pipeline
 
 11. En `01_ingest_bronze_incremental.ipynb`, ¿qué problema resuelve `COPY INTO` y qué información utiliza para evitar cargar dos veces el mismo archivo físico?
-
+> «COPY INTO» resuelve el problema de la dupliación de datos en la ingesta incremental. Cada archivo se copia una sóla vez en el Bronze. Esto se logra porque se registra metadata, que le permite distinguir los archivos que ya fueron ingeridos de los que todavía no.
 
 12. ¿Por qué la vista `bronze_transactions_all` usa `UNION ALL` en lugar de eliminar duplicados? ¿En qué capa se resuelven los duplicados de negocio y por qué?
+> En Bronze se mantienen todos los datos, sin purgar. Por eso se usa «UNION ALL». Bronze es la capa que permite "auditabilidad" de los datos o flexibilización ante cambios de contratos. **Mantiene todo el historial.** \
+> Los duplicados se eliminan en la capa Silver, que es la encargada de limpliar, deduplicar y aplicar reglas de calidad. 
 
 
 13. ¿Por qué las transacciones iniciales reciben `source_batch_id='initial'` y usan `event_ts` como `updated_at`? ¿Cómo afecta eso a la corrección de la transacción `42`?
-
+> _source_batch_id = 'initial'_ es lo que permite establecer un origen a partir del cual se incorporan incrementalmente los datos. \
+> El campo _updated_at_ permite mantener registro de la última transacción, lo cual será útil en la capa Silver, pues permite establecer con cuál transacción quedarse ante un _id_ duplicado. 
 
 14. En `quality_rules.py`, ¿qué ventaja ofrece `try_cast` frente a un `cast` convencional cuando llega un importe como `N/A`?
+>«try_cast» no detiene una ejecución ante un N/A, como sí lo hace «cast», sino que simplemente devuelve NULL y sigue corriendo. 
 
 
 15. Las reglas de calidad asignan una única `quality_reason`. ¿Qué sucede si un registro viola más de una regla y por qué importa el orden de las condiciones?
-
+>Si se viola más de una regla, _quality_reason_ se queda sólo con la primera que aparece, por eso importa el orden. 
 
 16. Explicá cómo se construye `_record_key` y cómo se usa junto con `row_number`. ¿Qué caso cubre el hash cuando `transaction_id` no puede convertirse a un número?
-
+>_record_key_ se construye con transaction_id o, si el id es nulo/inválido, con hash de toda la fila (ese es el caso que hash cubre). _row_number_ filtra para quedarse sólo con la versión más reciente de cada id.  
 
 17. Interpretá las dos cláusulas principales del `MERGE` de `silver_transactions`. ¿Cuándo se actualiza una fila existente y cuándo se inserta una nueva?
-
+>Una fila existente se actualiza cuando el registro ingestado tiene fecha de actualización más reciente. \
+>Se inserta una fila nueva cuando la clave del registro ingestado no se halla en la tabla. 
 
 18. ¿Por qué las tablas Gold se reconstruyen completamente en esta práctica mientras Silver se actualiza con `MERGE`? Mencioná una ventaja y una limitación de cada estrategia.
-
+> Silver permite actualizar con «MERGE» porque trabaja con transacciones a nivel individual. Gold no permite eso, o por lo menos no es conveniente, porque trabaja con datos agregados. 
+> La ventaja de Silver es que es menos costoso computacionalmente a la hora de insertar incrementalmente, pero (la contra:) a costa de mantener datos más minuciosamente. Por su lado, Gold permite consistencia total sin lógicas complejas de actualización (lo que ocurriría con «MERGE», pero se vuelve cada vez más costoso a medida que el dataset histórico crece. \
+> (No terminé de entender esta pregunta. Intenté razonarlo y dialogarlo con la IA, y el resultado de ello fue esta respuesta, pero no lo veo claro.)
 
 19. ¿Por qué `expected_batch_id` no participa en la detección del archivo nuevo? Indicá qué parte del pipeline descubre `batch_003` y qué parte utiliza el parámetro.
-
+>_expected_batch_id_ es usado exclusivamente por el notebook 4 (validate...) para verificar que el lote esperado fuera procesado correctamente. 
 
 20. Si la tarea `build_silver` falla, ¿qué ocurre con `build_gold` y `validate` en el Job? Explicá cómo las dependencias del DAG evitan publicar o validar resultados incompletos.
+>Si falla la construcción de Silver, no se sigue con la de Gold ni se intenta validar. Si Silver fallara y Gold y validate corrieran igual, se harían construcciones sobre datos incompletos o inconsistentes (lo que se encarga Silver de evitar). Por eso el DAG y sus dependencias son clave. 
