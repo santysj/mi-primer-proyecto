@@ -1,0 +1,135 @@
+--1
+SELECT source_batch_id, COUNT(*)
+FROM workspace.bigdata_santiago.bronze_transactions_incremental
+GROUP BY source_batch_id;
+
+
+
+--2
+DESCRIBE workspace.bigdata_santiago.silver_transactions;
+
+SELECT
+    source_batch_id as Lote,
+    COUNT(CASE WHEN estado = 'Aceptada' THEN 1 END) AS Aceptadas,
+    COUNT(CASE WHEN estado = 'Rechazada' THEN 1 END) AS Rechazadas,
+    COUNT(*) AS Total
+FROM (
+    SELECT source_batch_id, 'Aceptada' AS estado FROM workspace.bigdata_santiago.silver_transactions
+    UNION ALL
+    SELECT source_batch_id, 'Rechazada' AS estado FROM workspace.bigdata_santiago.silver_transactions_quarantine
+)
+GROUP BY source_batch_id
+ORDER BY source_batch_id;
+
+DESCRIBE workspace.bigdata_santiago.gold_batch_summary;
+
+SELECT source_batch_id as Lote, accepted_transactions as Aceptadas, rejected_transactions as Rechazadas, 
+accepted_transactions + rejected_transactions as Total
+FROM workspace.bigdata_santiago.gold_batch_summary
+ORDER BY source_batch_id;
+
+SELECT * FROM workspace.bigdata_santiago.gold_batch_summary;
+
+
+
+--3
+DESCRIBE workspace.bigdata_santiago.silver_transactions_quarantine;
+
+SELECT source_batch_id AS Lote, quality_reason AS Motivo, COUNT(*) AS cantidad
+FROM workspace.bigdata_santiago.silver_transactions_quarantine
+WHERE quality_reason IS NOT NULL
+GROUP BY source_batch_id, quality_reason
+ORDER BY source_batch_id;
+
+
+--4
+DESCRIBE workspace.bigdata_santiago.bronze_transactions_all;
+
+SELECT transaction_id, COUNT(*) as Cantidad_en_Bronze
+FROM workspace.bigdata_santiago.bronze_transactions_all
+WHERE transaction_id = '42'
+GROUP BY transaction_id;
+--(Hay 3 '42')
+
+SELECT transaction_id, COUNT(*) as Cantidad_en_Silver
+FROM workspace.bigdata_santiago.silver_transactions
+WHERE transaction_id = '42'
+GROUP BY transaction_id;
+--(Quedó 1 '42')
+
+SELECT transaction_id as ID, source_batch_id as Lote, updated_at AS Vez_Actualizado
+FROM workspace.bigdata_santiago.bronze_transactions_all
+WHERE transaction_id = '42';
+
+SELECT transaction_id as ID, source_batch_id as Lote, updated_at AS Vez_Actualizado
+FROM workspace.bigdata_santiago.silver_transactions
+WHERE transaction_id = '42';
+
+
+--5
+SELECT transaction_id, COUNT(*)
+FROM workspace.bigdata_santiago.silver_transactions
+GROUP BY transaction_id
+HAVING COUNT(*) > 1;
+
+
+--6
+DESCRIBE workspace.bigdata_santiago.gold_batch_summary;
+
+SELECT source_batch_id AS Lote, rejected_transactions/(accepted_transactions+rejected_transactions) AS Tasa_de_rechazo
+FROM workspace.bigdata_santiago.gold_batch_summary
+ORDER BY Tasa_de_rechazo;
+
+
+--7
+DESCRIBE workspace.bigdata_santiago.gold_daily_sales;
+
+SELECT sale_date AS Dia_de_mayor_monto_total, total_amount AS Monto_total, transaction_count AS Cantidad_de_transacciones
+FROM workspace.bigdata_santiago.gold_daily_sales
+ORDER BY total_amount DESC
+LIMIT 1;
+
+SELECT sale_date AS Dia_de_mas_transacciones, total_amount AS Monto_total, transaction_count AS Cantidad_de_transacciones
+FROM workspace.bigdata_santiago.gold_daily_sales
+ORDER BY transaction_count DESC
+LIMIT 1;
+
+
+--8
+SELECT payment_channel AS Canal_de_pago, SUM(fraud_transactions)/SUM(transaction_count) AS Tasa_de_fraude
+FROM workspace.bigdata_santiago.gold_daily_sales
+GROUP BY payment_channel
+ORDER BY Tasa_de_fraude DESC
+LIMIT 1;
+
+SELECT payment_channel, fraud_rate
+FROM workspace.bigdata_santiago.gold_daily_sales
+ORDER BY fraud_rate ASC
+LIMIT 20;
+
+
+--9
+SELECT country AS Pais, category AS Categoria, SUM(total_amount) as Monto
+FROM workspace.bigdata_santiago.gold_daily_sales
+GROUP BY country, category
+ORDER BY Monto DESC
+LIMIT 1;
+
+WITH aux AS (
+    SELECT country, category, SUM(total_amount) AS Monto,
+    ROW_NUMBER() OVER (PARTITION BY country ORDER BY SUM(total_amount) DESC) AS rn
+    FROM workspace.bigdata_santiago.gold_daily_sales
+    GROUP BY country, category
+)
+SELECT country AS Pais, category AS Categoria, Monto 
+FROM aux
+WHERE rn = 1;
+
+
+--10
+DESCRIBE workspace.bigdata_santiago.pipeline_run_audit;
+
+SELECT *
+FROM workspace.bigdata_santiago.pipeline_run_audit
+ORDER BY recorded_at ASC
+LIMIT 2;
