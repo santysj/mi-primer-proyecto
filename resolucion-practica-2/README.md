@@ -4,6 +4,14 @@
 **Escala: small**
 
 URL del job: https://dbc-93d64eb2-801b.cloud.databricks.com/jobs/881509156290527?o=7474648062160191
+| Start time | Run ID | Launched | Duration | Status | Error code | Run parameters |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Oct 09, 2026, 09:14 PM | 757309586067190 | Manually | 1m 32s | Succeeded | N/A | `expected_batch_id: batch_003, job_run_id: {{job.run_id}}, scale: small, student_id: santiago` |
+| Oct 09, 2026, 09:02 PM | 1004034939303076 | Manually | 10m 6s | Succeeded | N/A | `expected_batch_id: batch_002, job_run_id: {{job.run_id}}, scale: small, student_id: santiago` |
+
+
+#### ¿Por qué _COPY INTO_ y _MERGE_ resuelven problemas distintos? 
+> Porque COPY INTO resuelve el problema de no ingestar dos veces el mismo registro (lo que amenaza con pasar cuando corrés dos veces el job con un mismo batch), omitiendo los que ya han sido procesados. Esto lo consigue gracias a que mantiene un historial interno de los registros procesados. Ojo: garantizar que no se procese dos veces el mismo registro no significa garantizar que una misma entidad no tenga más de un registro. De esto se encarga MERGE, que integra los datos, limpiando y deduplicando, para mantener un registro por entidad. 
 
 ## Análisis de las tablas
 
