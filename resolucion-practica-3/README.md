@@ -1,8 +1,8 @@
 # Entrega práctica 3 — Bases de datos NoSQL
 
 - **Nombre: Santiago Sánchez Jeréz**
-- **student_id:santiago**
-- **Escala:small**
+- **student_id: santiago**
+- **Escala: small**
 
 Respondé cada pregunta en una a tres oraciones. Cuando se pide un dato, copiá el valor que te dio el notebook.
 
@@ -36,13 +36,13 @@ Respondé cada pregunta en una a tres oraciones. Cuando se pide un dato, copiá 
 
 ## Grafos
 
-**12.**
+**12.** El grafo tiene 2361 nodos Device, 5000 nodos Customer y 5.400 aristas. 
 
-**13.**
+**13.** Para 2 y 4 saltos, SQL necesitó 3 y 5 joins respectivamente. Neo4J es más eficiente que una base relacional en cuanto a recorrer relaciones porque evita el problema de los JOINs: se puede ir de cualquier nodo a cualquiera otro con el que esté conectado con una sóla flecha que, a nivel computacional, se basa en _pointer hopping_.
 
-**14.**
+**14.** Tardó 14 iteraciones. El componente más grande tiene 23 nodos. 
 
-**15.**
+**15.** Al repartir con **hash(id) mod 4**, un 74.4% de aristas quedó entre máquinas distintas. Es dificil distirbuir una base de grafos porque siempre que una arista quede entre máquinas distintas, te ves obligado a hacer un salto de red. 
 
 ## Vectorial
 
