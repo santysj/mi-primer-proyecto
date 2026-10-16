@@ -40,21 +40,22 @@ La diferencia entre run y experimento es que mientras un run es lo que guarda pa
 
 ## Tus experimentos
 
-**7.**
+**7.** Mi mejor modelo fue un **gradient boosting** con C=1, n_estimators=100, max_depth=3, learning_rate=0.1, class_weight=balanced, umbral=0.5 y **features completas**. Tuvo PR-AUC=0.586. Mientras que "solo_regla" tiene una PR-AUC=0.17. 
 
-**8.**
 
-**9.**
+**8.** Las PR-AUC con básicas y cliente (ceteris paribus respecto del mejor modelo) fueron de 0.328 y 0.514 respectivamente. Las variables más importantes fueron el modelo (GB), las features (completas), class weight(balanced), el umbral (0.5), learning rate (0.1) y max depth (3).
 
-**10.**
+**9.** Anduvo mejor boosting. Un modelo de árboles puede aprovechar combinaciones que la logística no ve porque la logística no combina, pondera efectos individuales. 
 
-**11.**
+**10.** En general, bajó un poco la precisión pero subió mucho el recall. Y sí, cambió mucho el PR-AUC. 
 
-**12.**
+**11.** Al bajar el umbral, PR-AUC no cambió, mientras que f1 cayó. Esto se debe a que PR-AUC evalúa cómo ordena el modelo los casos (la probabilidad que da a cada uno), mientras que f1 evalúa los resultados para cada predicción (precisión, recall).
+
+**12.** Barrí max depth y con 3 me dio el mejor PR-AUC. Hubo valores más altos pero no tanto. Este fenómeno se llama overfitting. 
 
 ## Comparar y elegir
 
-**13.**
+**13.** 
 
 **14.**
 
