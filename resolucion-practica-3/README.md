@@ -54,6 +54,6 @@ Respondé cada pregunta en una a tres oraciones. Cuando se pide un dato, copiá 
 
 ## Columnar
 
-**19.**
+**19.** Parquet ocupa 5.3MB, JSON 121.2MB y CSV 50MB. Spark leyó sólo la columna **amount**. Con datos ordenados, se pueden saltear 7 de 8 archivos. 
 
-**20.**
+**20.** El formato columnar es bueno para analítica porque consultar que preguntan por campos específicos corren más eficientemente: la estructura columnar permite que se lea sólo la columna de interés, contra una estructura SQL que debe leer cada fila para llegar a la columna. La contracara de esto es que lo columnar es ineficiente para trabajar con filas. Para llegar a completar una misma fila, hay que acceder a todas las columnas.
