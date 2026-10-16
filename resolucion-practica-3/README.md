@@ -46,11 +46,11 @@ Respondé cada pregunta en una a tres oraciones. Cuando se pide un dato, copiá 
 
 ## Vectorial
 
-**16.**
+**16.** El vector de cada cliente tiene n dimensiones y representa los n atributos que le corresponden (lo que sería los campos). La similitud coseno mide qué tanto se parece (el vector de) un cliente a(l del) otro: si la similitud vale 1, los vectores son iguales. 
 
-**17.**
+**17.** Hay un 31.6% de vecinos de marcados que está marcado. Sirve buscar vecinos parecidos porque permite analizar/predecir comportamientos: «si A y B son vecinos y sé que A es X, probablemente B también sea X».
 
-**18.**
+**18.** Con **nprobe=4** se escanea un 5.985% de los vectores y un recall de 0.872. Se gana en costo computacional, pero se paga el costo de pasar por alto vecinos verdaderos. 
 
 ## Columnar
 
