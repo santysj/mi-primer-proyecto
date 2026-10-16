@@ -22,17 +22,17 @@ Respondé cada pregunta en una a tres oraciones. Cuando se pide un dato, copiá 
 
 **6.** Hubo que leer y parsear todos los valores porque la estructura clave-valor no "muestra a simple vista" los valores, sino sólo las claves, lo que quiere decir que para conocer los valores de un objeto, hay que leerlo en el momento. Como AR es un valor –no una clave–, hay que leer todos los objetos; parsearlos sirve para tener que hacerlo sólo una vez, en la que mandás las claves con valor AR a un set. 
 
-**7.** Con **hash mod N** se movió un 79.6% de las claves, mientras que con **hashing consistente** se se movió un 21.2%. Conviene **hashing consistente** porque los nodos equilibrados garantizan un procesamiento eficiente y homogéneo: todos los nodos son igual de grandes, todos operables a un mismo nivel de complejidad. 
+**7.** Con **hash mod N** se movió un 79.6% de las claves, mientras que con **hashing consistente** se se movió un 21.2%. Conviene **hashing consistente** porque los nodos equilibrados garantizan un procesamiento eficiente y homogéneo: todos los nodos son igual de grandes, todos operables a un mismo nivel de complejidad. Como contraste, con **hash mod N** quedan nodos desbalanceados, algunos sobrecargados, otros con muy poca información; la velocidad y complejidad de operación se vuelve muy variable, dependiendo del nodo con el que te toque trabajar. 
 
 ## Documental
 
-**8.**
+**8.** La consulta relacional devolvió 11 filas, mientras que la documental devolvió un solo documento, que embebió todos los datos, sin repetirlos, para el cliente 42. 
 
-**9.**
+**9.** Spark rellena con _null_ los campos para los cuales no está el campo que sí está en otros. Por permitir que distintos documentos tengan distintos campos es por lo que se dice que el modelo documental tiene esquema flexible. 
 
-**10.**
+**10.** El documento más grande pesa 5.2KB. Si un documento creciera sin límites, el problema que aparecería es que no se puede manejar el documento.
 
-**11.**
+**11.** El modelo documental resuelve bien las consultas unitarias, por entidad; pero le va mal con las consultas transversales. 
 
 ## Grafos
 
