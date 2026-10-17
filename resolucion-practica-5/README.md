@@ -79,4 +79,4 @@ El drift es un cambio en los datos, en su composición. Se puede detectar antes 
 
 ## Cierre
 
-**20.**
+**20.** Lo que hicimos en esta práctica corresponde a entrenamiento, tracking y monitoreo. Para tener el modelo en producción real habría que ponerlo en relación con otros modelos y armar el esquema OLAP, por ejemplo. 
