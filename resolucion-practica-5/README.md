@@ -55,13 +55,14 @@ La diferencia entre run y experimento es que mientras un run es lo que guarda pa
 
 ## Comparar y elegir
 
-**13.** 
+**13.** No coincidieron mi mejor PR-AUC con mi mejor accuracy. Ambos son boosting con features completas, pero uno (mejor PR-AUC) tiene class weitght balanced y umbral=0.2 mientrs que el otro classweight=ninguno y umbral=0.5
 
-**14.**
+**14.** El más sistemático en alejarse de la diagonal es random forest. Que se aleje significa que sobreajusta. 
 
-**15.**
+**15.** _search_runs_ permite hacer consultas con sintaxis SQL. 
+Usaría 'metrics.pr_auc > 0.55' 
 
-**16.**
+**16.** Cuesta más una alerta falsa. Siendo que hay una cantidad fija de alertas a revisar por día, subiría el umbral cuanto más limitado esté.
 
 ## Registro, uso y monitoreo
 
