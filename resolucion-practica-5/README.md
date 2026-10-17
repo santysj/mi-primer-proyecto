@@ -66,11 +66,16 @@ Usaría 'metrics.pr_auc > 0.55'
 
 ## Registro, uso y monitoreo
 
-**17.**
+**17.** Se pudo. \
+Nombre: 'workspace.bigdata_santiago.fraud_model'\
+Versión: 1 \
+Alias: 'champion'\
+La ventaja de cargar los modelos de esta forma es que, si tenés un modelo que pide un champion y el champion cambia, al tagear champion, no hay que tocar nada del código si el tag cambia. 
 
-**18.**
+**18.** Se puntuaron 7.165 transacciones y 3.410 generaron alerta. Las columnas que permiten auditar cada decisión son: modelo, versión, run y umbral (como permite audita, por eso el umbral se guarda fuera del modelo). 
 
-**19.**
+**19.** El PR-AUC fue parecido en las nuevas: 0.586 (train) vs 0.579 (producción). El porcentaje de alertas también se mantuvo parecido: 48.73% contra 47.59%. \
+El drift es un cambio en los datos, en su composición. Se puede detectar antes de tener las etiquetas porque se nota primero en las distribuciones de entrada y de scores, que ocurre antes de las métricas y el etiquetado. 
 
 ## Cierre
 
